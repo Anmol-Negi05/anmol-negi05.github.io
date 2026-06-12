@@ -77,26 +77,24 @@ document.addEventListener("keydown", (event) => {
   }
 });
 /* ==========================
-   FLOWING DOT BACKGROUND
+   FULL PAGE FLOWING DOTS
 ========================== */
 
 const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
 
-const spacing = 16;      // dot density
-const speed = 0.20;      // movement speed
-const mouseRadius = 260; // hover bubble size
+const spacing = 16;
+const speed = 0.35;
+const mouseRadius = 220;
 
 let dots = [];
-let time = 0;
-let lastHeight = 0;
 
 const mouse = {
   x: -9999,
   y: -9999
 };
 
-function resizeCanvas() {
+function buildDots() {
 
   canvas.width = window.innerWidth;
 
@@ -108,61 +106,65 @@ function resizeCanvas() {
 
   dots = [];
 
-  for (let x = 0; x < canvas.width + spacing; x += spacing) {
-    for (let y = 0; y < canvas.height + spacing; y += spacing) {
+  for (let x = 0; x <= canvas.width; x += spacing) {
+    for (let y = 0; y <= canvas.height; y += spacing) {
 
       dots.push({
         baseX: x,
         baseY: y,
-        offset: Math.random() * 1000
+        x: x,
+        y: y,
+        drift: Math.random() * canvas.width
       });
 
     }
   }
 }
 
-window.addEventListener("resize", resizeCanvas);
+window.addEventListener("resize", buildDots);
 
 window.addEventListener("mousemove", (e) => {
-
   mouse.x = e.clientX;
-  mouse.y = e.clientY + window.scrollY;
-
+  mouse.y = e.pageY;
 });
 
 window.addEventListener("mouseleave", () => {
-
   mouse.x = -9999;
   mouse.y = -9999;
-
 });
 
-function animateDots() {
+let flow = 0;
 
-  const currentHeight = Math.max(
+function animate() {
+
+  const requiredHeight = Math.max(
     document.body.scrollHeight,
-    document.documentElement.scrollHeight
+    document.documentElement.scrollHeight,
+    window.innerHeight
   );
 
-  if (currentHeight !== lastHeight) {
-    lastHeight = currentHeight;
-    resizeCanvas();
+  if (requiredHeight !== canvas.height) {
+    buildDots();
   }
 
-  time += speed;
+  flow += speed;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (const dot of dots) {
 
-    let x =
-      (dot.baseX + time * 40 + dot.offset) %
+    const movingX =
+      (dot.baseX + dot.drift + flow) %
       (canvas.width + spacing);
 
-    let y = dot.baseY;
+    const targetX = movingX;
+    const targetY = dot.baseY;
 
-    const dx = x - mouse.x;
-    const dy = y - mouse.y;
+    dot.x += (targetX - dot.x) * 0.08;
+    dot.y += (targetY - dot.y) * 0.08;
+
+    const dx = dot.x - mouse.x;
+    const dy = dot.y - mouse.y;
 
     const distance = Math.sqrt(dx * dx + dy * dy);
 
@@ -173,21 +175,18 @@ function animateDots() {
 
       const angle = Math.atan2(dy, dx);
 
-      x += Math.cos(angle) * force * 140;
-      y += Math.sin(angle) * force * 140;
+      dot.x += Math.cos(angle) * force * 25;
+      dot.y += Math.sin(angle) * force * 25;
     }
 
     ctx.beginPath();
-    ctx.arc(x, y, 1.3, 0, Math.PI * 2);
-
-    ctx.fillStyle =
-      "rgba(255,255,255,0.75)";
-
+    ctx.arc(dot.x, dot.y, 1.2, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(255,255,255,0.65)";
     ctx.fill();
   }
 
-  requestAnimationFrame(animateDots);
+  requestAnimationFrame(animate);
 }
 
-resizeCanvas();
-animateDots();
+buildDots();
+animate();
