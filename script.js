@@ -2,14 +2,6 @@ const form = document.querySelector(".contact-form");
 const note = document.querySelector(".form-note");
 const glow = document.querySelector(".cursor-glow");
 
-form?.addEventListener("submit", (event) => {
-  event.preventDefault();
-  if (note) {
-    note.textContent = "Message queued for demo. Use the email link to send it live.";
-  }
-  form.reset();
-});
-
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener("click", (event) => {
     const target = document.querySelector(link.getAttribute("href"));
