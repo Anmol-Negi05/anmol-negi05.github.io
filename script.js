@@ -92,7 +92,13 @@ let mouse = {
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+
+  // Use full page height instead of viewport height
+  canvas.height = Math.max(
+    document.body.scrollHeight,
+    document.documentElement.scrollHeight,
+    window.innerHeight
+  );
 
   dots = [];
 
@@ -100,7 +106,6 @@ function resizeCanvas() {
 
   for (let x = 0; x < canvas.width; x += spacing) {
     for (let y = 0; y < canvas.height; y += spacing) {
-
       dots.push({
         baseX: x,
         baseY: y,
@@ -109,7 +114,6 @@ function resizeCanvas() {
         vx: 0,
         vy: 0
       });
-
     }
   }
 }
