@@ -87,7 +87,7 @@ let dots = [];
 let mouse = {
   x: -9999,
   y: -9999,
-  radius: 140
+  radius: 200
 };
 
 function resizeCanvas() {
