@@ -280,13 +280,53 @@
             <p class="location"><small>Location</small>New Delhi, India &middot; 110023</p>
             <strong class="available">Available.</strong>
           </div>
-          <form class="contact-form">
-            <label>01 / Your Name<input type="text" placeholder="e.g. Priya Sharma" required /></label>
-            <label>02 / Email<input type="email" placeholder="you@company.com" required /></label>
-            <label>03 / Message<textarea placeholder="Tell me about the role or project..." required></textarea></label>
-            <button type="submit">Send Message &nearr;</button>
-            <p class="form-note" role="status" aria-live="polite"></p>
-          </form>
+          <form
+  class="contact-form"
+  action="https://formsubmit.co/anmolnegi05@gmail.com"
+  method="POST">
+
+  <label>
+    01 / Your Name
+    <input
+      type="text"
+      name="name"
+      placeholder="e.g. Priya Sharma"
+      required>
+  </label>
+
+  <label>
+    02 / Email
+    <input
+      type="email"
+      name="email"
+      placeholder="you@company.com"
+      required>
+  </label>
+
+  <label>
+    03 / Message
+    <textarea
+      name="message"
+      placeholder="Tell me about the role or project..."
+      required></textarea>
+  </label>
+
+  <input type="hidden"
+         name="_subject"
+         value="New Portfolio Contact Form Submission">
+
+  <input type="hidden"
+         name="_captcha"
+         value="false">
+
+  <input type="hidden"
+         name="_next"
+         value="https://anmol-negi05.github.io/">
+
+  <button type="submit">
+    Send Message
+  </button>
+</form>
         </div>
       </section>
     </main>
