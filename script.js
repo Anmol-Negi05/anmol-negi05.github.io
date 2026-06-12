@@ -77,42 +77,37 @@ document.addEventListener("keydown", (event) => {
   }
 });
 /* ==========================
-   INTERACTIVE DOT BACKGROUND
+   FLOWING DOT BACKGROUND
 ========================== */
 
 const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
 
+const spacing = 28;
+const speed = 0.15;
+const mouseRadius = 180;
+
 let dots = [];
+
 let mouse = {
   x: -9999,
-  y: -9999,
-  radius: 220
+  y: -9999
 };
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
-
-  // Use full page height instead of viewport height
-  canvas.height = Math.max(
-    document.body.scrollHeight,
-    document.documentElement.scrollHeight,
-    window.innerHeight
-  );
+  canvas.height = window.innerHeight;
 
   dots = [];
 
-  const spacing = 22;
-
-  for (let x = 0; x < canvas.width; x += spacing) {
-    for (let y = 0; y < canvas.height; y += spacing) {
+  for (let x = 0; x < canvas.width + spacing; x += spacing) {
+    for (let y = 0; y < canvas.height + spacing; y += spacing) {
       dots.push({
         baseX: x,
         baseY: y,
+        offset: Math.random() * 1000,
         x: x,
-        y: y,
-        vx: 0,
-        vy: 0
+        y: y
       });
     }
   }
@@ -125,39 +120,44 @@ window.addEventListener("mousemove", (e) => {
   mouse.y = e.clientY;
 });
 
+window.addEventListener("mouseleave", () => {
+  mouse.x = -9999;
+  mouse.y = -9999;
+});
+
+let time = 0;
+
 function animateDots() {
+  time += 0.01;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  for (let dot of dots) {
+  for (const dot of dots) {
 
-    let dx = dot.x - mouse.x;
-    let dy = dot.y - mouse.y;
+    const flowX =
+      dot.baseX +
+      ((time * 40 + dot.offset) % (canvas.width + spacing));
 
-    let distance = Math.sqrt(dx * dx + dy * dy);
+    let x = flowX % (canvas.width + spacing);
+    let y = dot.baseY;
 
-    if (distance < mouse.radius) {
+    const dx = x - mouse.x;
+    const dy = y - mouse.y;
 
-      let force = (mouse.radius - distance) / mouse.radius;
+    const distance = Math.sqrt(dx * dx + dy * dy);
 
-      let angle = Math.atan2(dy, dx);
+    if (distance < mouseRadius) {
+      const force = (mouseRadius - distance) / mouseRadius;
 
-      dot.vx += Math.cos(angle) * force * 10;
-      dot.vy += Math.sin(angle) * force * 10;
+      const angle = Math.atan2(dy, dx);
+
+      x += Math.cos(angle) * force * 80;
+      y += Math.sin(angle) * force * 80;
     }
 
-    dot.vx += (dot.baseX - dot.x) * 0.15;
-    dot.vy += (dot.baseY - dot.y) * 0.15;
-
-    dot.vx *= 0.72;
-    dot.vy *= 0.72;
-
-    dot.x += dot.vx;
-    dot.y += dot.vy;
-
     ctx.beginPath();
-    ctx.arc(dot.x, dot.y, 1.2, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(255,255,255,0.55)";
+    ctx.arc(x, y, 1.2, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(255,255,255,0.45)";
     ctx.fill();
   }
 
