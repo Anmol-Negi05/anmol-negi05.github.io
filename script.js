@@ -78,7 +78,7 @@ const ctx = canvas?.getContext("2d", { alpha: true });
 const particleConfig = {
   spacing: 30,
   particleSize: 1.05,
-  movementSpeed: 14,
+  movementSpeed: 30,
   mouseRadius: 130,
   repulsionStrength: 58
 };
