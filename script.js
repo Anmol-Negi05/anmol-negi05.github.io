@@ -83,7 +83,7 @@ document.addEventListener("keydown", (event) => {
 const canvas = document.getElementById("dotCanvas");
 const ctx = canvas.getContext("2d");
 
-const spacing = 16;
+const spacing = 12;
 const speed = 0.35;
 const mouseRadius = 220;
 
