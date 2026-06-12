@@ -22,15 +22,17 @@ html {
 }
 
 body {
-  margin: 0;
-  color: var(--text);
-  background: #050505;
-  font-family: var(--mono);
-  overflow-x: hidden;
-}
-  background-size: 80px 80px, 80px 80px, auto, auto;
-  font-family: var(--mono);
-  overflow-x: hidden;
+    margin: 0;
+    color: var(--text);
+    font-family: var(--mono);
+    overflow-x: hidden;
+
+    background-color: #050505;
+
+    background-image:
+        radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+
+    background-size: 20px 20px;
 }
 #dotCanvas {
     position: fixed;
