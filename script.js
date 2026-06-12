@@ -142,15 +142,15 @@ function animateDots() {
 
       let angle = Math.atan2(dy, dx);
 
-      dot.vx += Math.cos(angle) * force * 2.5;
-      dot.vy += Math.sin(angle) * force * 2.5;
+      dot.vx += Math.cos(angle) * force * 8;
+      dot.vy += Math.sin(angle) * force * 8;
     }
 
-    dot.vx += (dot.baseX - dot.x) * 0.03;
-    dot.vy += (dot.baseY - dot.y) * 0.03;
+    dot.vx += (dot.baseX - dot.x) * 0.12;
+    dot.vy += (dot.baseY - dot.y) * 0.12;
 
-    dot.vx *= 0.90;
-    dot.vy *= 0.90;
+    dot.vx *= 0.75;
+    dot.vy *= 0.75;
 
     dot.x += dot.vx;
     dot.y += dot.vy;
