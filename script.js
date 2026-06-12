@@ -85,7 +85,7 @@ const ctx = canvas.getContext("2d");
 
 const spacing = 12;
 const speed = 0.35;
-const mouseRadius = 220;
+const mouseRadius = 150;
 
 let dots = [];
 
