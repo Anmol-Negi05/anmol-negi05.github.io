@@ -76,3 +76,89 @@ document.addEventListener("keydown", (event) => {
     closeCertificate();
   }
 });
+/* ==========================
+   INTERACTIVE DOT BACKGROUND
+========================== */
+
+const canvas = document.getElementById("dotCanvas");
+const ctx = canvas.getContext("2d");
+
+let dots = [];
+let mouse = {
+  x: -9999,
+  y: -9999,
+  radius: 140
+};
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  dots = [];
+
+  const spacing = 28;
+
+  for (let x = 0; x < canvas.width; x += spacing) {
+    for (let y = 0; y < canvas.height; y += spacing) {
+
+      dots.push({
+        baseX: x,
+        baseY: y,
+        x: x,
+        y: y,
+        vx: 0,
+        vy: 0
+      });
+
+    }
+  }
+}
+
+window.addEventListener("resize", resizeCanvas);
+
+window.addEventListener("mousemove", (e) => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+
+function animateDots() {
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let dot of dots) {
+
+    let dx = dot.x - mouse.x;
+    let dy = dot.y - mouse.y;
+
+    let distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < mouse.radius) {
+
+      let force = (mouse.radius - distance) / mouse.radius;
+
+      let angle = Math.atan2(dy, dx);
+
+      dot.vx += Math.cos(angle) * force * 2.5;
+      dot.vy += Math.sin(angle) * force * 2.5;
+    }
+
+    dot.vx += (dot.baseX - dot.x) * 0.03;
+    dot.vy += (dot.baseY - dot.y) * 0.03;
+
+    dot.vx *= 0.90;
+    dot.vy *= 0.90;
+
+    dot.x += dot.vx;
+    dot.y += dot.vy;
+
+    ctx.beginPath();
+    ctx.arc(dot.x, dot.y, 1.2, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(255,255,255,0.55)";
+    ctx.fill();
+  }
+
+  requestAnimationFrame(animateDots);
+}
+
+resizeCanvas();
+animateDots();
