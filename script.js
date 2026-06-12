@@ -87,7 +87,7 @@ let dots = [];
 let mouse = {
   x: -9999,
   y: -9999,
-  radius: 200
+  radius: 220
 };
 
 function resizeCanvas() {
@@ -102,7 +102,7 @@ function resizeCanvas() {
 
   dots = [];
 
-  const spacing = 28;
+  const spacing = 22;
 
   for (let x = 0; x < canvas.width; x += spacing) {
     for (let y = 0; y < canvas.height; y += spacing) {
@@ -142,15 +142,15 @@ function animateDots() {
 
       let angle = Math.atan2(dy, dx);
 
-      dot.vx += Math.cos(angle) * force * 8;
-      dot.vy += Math.sin(angle) * force * 8;
+      dot.vx += Math.cos(angle) * force * 10;
+      dot.vy += Math.sin(angle) * force * 10;
     }
 
-    dot.vx += (dot.baseX - dot.x) * 0.12;
-    dot.vy += (dot.baseY - dot.y) * 0.12;
+    dot.vx += (dot.baseX - dot.x) * 0.15;
+    dot.vy += (dot.baseY - dot.y) * 0.15;
 
-    dot.vx *= 0.75;
-    dot.vy *= 0.75;
+    dot.vx *= 0.72;
+    dot.vy *= 0.72;
 
     dot.x += dot.vx;
     dot.y += dot.vy;
