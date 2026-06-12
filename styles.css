@@ -33,6 +33,15 @@ body {
   font-family: var(--mono);
   overflow-x: hidden;
 }
+#dotCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: #000;
+}
 
 body.modal-open {
   overflow: hidden;
